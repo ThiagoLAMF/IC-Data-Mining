@@ -20,21 +20,47 @@ int main()
     srand( (unsigned)time(NULL) );
     srand(time(NULL));
 
-    int i,j;
+    int i,j,k;
+    int pai1,pai2;
+    Individuo *arquivo = iniciaPopulacao(TOTAL_INDIVIDUOS_ARQUIVO);
+    Individuo *populacao = iniciaPopulacao(TAM_POPULACAO_TOTAL);
 
-    Individuo *ind = iniciaPopulacao(TOTAL_INDIVIDUOS);
-    Individuo *aval = iniciaPopulacao(100);
+    carregaArquivo(arquivo);
+    carregaPopulacao(populacao);
 
-    carregaPopulacao2(aval);
-    carregaPopulacao(ind);
+    for(i = 0;i<N_GERACOES;i++)
+    {
+        calculaAvaliacao(arquivo,populacao,0); //Calcula avaliação dos 50 indiduos na população
+        calculafitnessAcumulado(populacao);
 
+        int indexFilhos = N_FILHOS;
+        for(j=0;j<(N_FILHOS/2);j++) //Gera filhos
+        {
+            //roletaSemRepeticao(&populacao); //
+            k = 0;
+            do
+            {
+                pai1 = roleta(populacao); //Seleciona Pais
+                pai2 = roleta(populacao);
+                k++;
+            }
+            while(pai1 == pai2 && k < 10);
 
-    calculaAvaliacao(ind,aval,0);
-    printf("Avaliacao: %f",aval[0].fitness);
+            crossOver(populacao,indexFilhos,indexFilhos+1,pai1,pai2);
 
-    //crossOver(aval,50);
+            mutacao(populacao[indexFilhos].gen);
+            mutacao(populacao[indexFilhos+1].gen);
 
-    //exibeDataMining(aval,52,0);
+            printf("PAI1: %d | PAI2: %d",pai1,pai2);
+            getchar();
+            indexFilhos += 2;
+        }
+
+    }
+
+    exibeDataMining(populacao,100,0);
+
+    //printf("%f",((float)(rand())/(float)(RAND_MAX))*0.2);
     getchar();
     return 0;
 }

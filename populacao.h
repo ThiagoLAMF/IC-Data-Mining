@@ -20,6 +20,7 @@ typedef struct gene Gene;
 struct individuo
 {
     Gene *gen;
+    float fitness;
 };
 
 typedef struct individuo Individuo;

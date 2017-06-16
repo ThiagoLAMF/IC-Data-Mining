@@ -6,46 +6,49 @@
 
 int calculaAvaliacao(Individuo *ind, Individuo *aval, int Classe)
 {
-    int i,contadorC1 = 0,j,k;
-    float FP=0,TP=0,FN=0,TN=0; //TN: Diz que é negativo e é negativo
+    int i,contadorC1 = 0,j,k,posMaiorFitness;
+    float FP=0,TP=0,FN=0,TN=0; //TN: Diz que ï¿½ negativo e ï¿½ negativo
+    float SE,SP;
+    float fitness;
+    float maiorFitness = 0;
     for(i=0; i<50; i++) //Percorre aleatorios
     {
         FP=0,TP=0,FN=0,TN=0;
-        for(k = 0;k<TOTAL_INDIVIDUOS;k++) //percorre carregados do arquivo
+        for(k = 0; k<TOTAL_INDIVIDUOS; k++) //percorre carregados do arquivo
         {
-             int flagDiferente = 0;
-             for(j = 0; j<TAM_INDIVIDUO;j++) //PErcorre os genes
-             {
+            int flagDiferente = 0;
+            for(j = 0; j<TAM_INDIVIDUO; j++) //PErcorre os genes
+            {
                 if(aval[i].gen[j].peso > 0.7  )
                 {
                     int operador = aval[i].gen[j].operador;
                     //DIFERENTE, IGUAL, MENORIGUAL, MAIORIGUAL
                     switch(operador)
                     {
-                        case DIFERENTE:
-                            if(aval[i].gen[j].valor == ind[k].gen[j].valor)
-                            {
-                                flagDiferente = 1;
-                            }
-                            break;
-                        case IGUAL:
-                             if(aval[i].gen[j].valor != ind[k].gen[j].valor)
-                            {
-                                flagDiferente = 1;
-                            }
-                            break;
-                        case MENOR:
-                            if(aval[i].gen[j].valor >= ind[k].gen[j].valor)
-                            {
-                                flagDiferente = 1;
-                            }
-                            break;
-                        case MAIORIGUAL:
-                            if(aval[i].gen[j].valor < ind[k].gen[j].valor)
-                            {
-                                flagDiferente = 1;
-                            }
-                            break;
+                    case DIFERENTE:
+                        if(aval[i].gen[j].valor == ind[k].gen[j].valor)
+                        {
+                            flagDiferente = 1;
+                        }
+                        break;
+                    case IGUAL:
+                        if(aval[i].gen[j].valor != ind[k].gen[j].valor)
+                        {
+                            flagDiferente = 1;
+                        }
+                        break;
+                    case MENOR:
+                        if(aval[i].gen[j].valor >= ind[k].gen[j].valor)
+                        {
+                            flagDiferente = 1;
+                        }
+                        break;
+                    case MAIORIGUAL:
+                        if(aval[i].gen[j].valor < ind[k].gen[j].valor)
+                        {
+                            flagDiferente = 1;
+                        }
+                        break;
                     }
                     if(flagDiferente) break;
                 }
@@ -69,23 +72,28 @@ int calculaAvaliacao(Individuo *ind, Individuo *aval, int Classe)
             //false negative (fn) - the rule predicts that the patient does not have a given disease but the patient does have it.
 
         }
-        printf("tp = %f FP = %f TN = %f FN = %f\n",TP, FP, TN, FN);
-        float SE,SP;
+        //printf("tp = %f FP = %f TN = %f FN = %f\n",TP, FP, TN, FN);
+
         SE = (TP +1)/(TP + FN +1);
         SP = (TN +1 )/(TN + FP +1);
-        printf("\n SE == %f", SE);
-        printf("\n SP == %f", SP);
-        float fitness;
+        //printf("\n SE == %f", SE);
+        //printf("\n SP == %f", SP);
+
         fitness = SE * SP;
-        printf("\n Fitness == %f", fitness);
+        if (fitness > maiorFitness)
+        {
+            maiorFitness = fitness;
+            posMaiorFitness = i;
+        }
+        //printf("\n Fitness == %f", fitness);
+        aval[i].fitness = fitness;
 
 
 
         //getchar();
     }
-    return 1;
+    return posMaiorFitness;
 }
-
 
 
 void exibeGenes(Gene *gen)
@@ -119,7 +127,7 @@ void exibeDataMining(Individuo *ind,int tamPopulacao,int exibeClasse)
 
 Individuo* iniciaPopulacao(int tamPopulacao)
 {
-    Individuo *ind = (Individuo*) malloc(sizeof(Individuo*)*tamPopulacao);
+    Individuo *ind = (Individuo*) malloc(sizeof(Individuo)*tamPopulacao);
 
     int i;
     for(i=0; i<tamPopulacao; i++)
@@ -173,7 +181,7 @@ void carregaPopulacao(Individuo *ind)
         while( ultimo_token != NULL )
         {
             //printf( "%s\n", ultimo_token );
-            if (rand()%(2) < 1) //flag vai definir si o peso é negativo ou não
+            if (rand()%(2) < 1) //flag vai definir si o peso Ã© negativo ou nÃ£o
                 ind[indexIndividuo].gen[index].peso = myrand;
 
             else
@@ -205,7 +213,7 @@ void carregaPopulacao2(Individuo *aval)
         while( index != TAM_INDIVIDUO )
         {
 
-            if (rand()%(2) < 1) //flag vai definir si o peso é negativo ou não
+            if (rand()%(2) < 1) //flag vai definir si o peso Ã© negativo ou nÃ£o
                 aval[indexIndividuo].gen[index].peso = myrand;
 
             else
@@ -228,7 +236,41 @@ void carregaPopulacao2(Individuo *aval)
 }
 
 
-void crossOver(Individuo* ind,int index)
+
+int mutacao(Gene *gen)
+{
+    // numero aleatorio que fara a troca
+    int i,j,num1, num2,pos1,pos2;
+    Gene aux;
+    printf("\nantes a mutacao\n");
+
+    exibeGenes(gen);
+//    for(j=0; j<TAM_INDIVIDUO+1; j++)
+//    {
+//        printf("%d,",gen[j].valor);
+//    }
+
+    for(i=0; i<=10; i++)
+    {
+        do
+        {
+            num1 = rand()%(33);
+            num2 = rand()%(33);
+        }
+        while (num1 == 10 && num2 == 10);
+
+        //aux = gen[num1];
+        gen[num1] = gen[num2];
+        //gen[num2] = aux;
+        printf("\npos1: %d, pos2: %d\n",num1,num2);
+    }
+    printf("\napos a mutacao\n");
+    exibeGenes(gen);
+
+
+}
+/*
+void crossOver(Individuo* aval,int index,Gene* Filho1,Gene* Filho2)
 {
 
     //Cross over, seleciona 2 pais e gera 2 filhos.
@@ -246,17 +288,19 @@ void crossOver(Individuo* ind,int index)
 
     printf("\nposA = %d\n posB = %d\n",posA,posB);
 
-    a = ind[posA].gen;
-    b = ind[posB].gen;
+    a = aval[posA].gen;
+    b = aval[posB].gen;
     exibeGenes(a);
     exibeGenes(b);
 
     int pos1,pos2;
 
-    do{
-    pos1 = rand()%(TAM_INDIVIDUO);
-    pos2 = rand()%(TAM_INDIVIDUO);
-    }while(pos1==pos2);
+    do
+    {
+        pos1 = rand()%(TAM_INDIVIDUO);
+        pos2 = rand()%(TAM_INDIVIDUO);
+    }
+    while(pos1==pos2);
 
     printf("\n pos1 = %d,\npos2 = %d",pos1,pos2);
     int menor =0, maior =0;
@@ -273,13 +317,13 @@ void crossOver(Individuo* ind,int index)
     printf("\n menor = %d,maior = %d",menor,maior);
 
     //Gene* filho1 = (Gene*) malloc(sizeof(Gene)*TAM_INDIVIDUO);
-     //Gene* filho2 = (Gene*) malloc(sizeof(Gene)*TAM_INDIVIDUO);
-    Gene* filho1 = ind[index].gen;
-    Gene* filho2 = ind[index+1].gen;
+    //Gene* filho2 = (Gene*) malloc(sizeof(Gene)*TAM_INDIVIDUO);
+    Gene* filho1 = aval[index].gen;
+    Gene* filho2 = aval[index+1].gen;
 
     //Gene* aux = (Gene*) malloc(sizeof(Gene)*TAM_INDIVIDUO);
     int g;
-    for(g=0;g<TAM_INDIVIDUO+1;g++) // +1 para pegar a ultima coluna (classe)
+    for(g=0; g<TAM_INDIVIDUO+1; g++) // +1 para pegar a ultima coluna (classe)
     {
         if(g <= menor)
         {
@@ -300,5 +344,10 @@ void crossOver(Individuo* ind,int index)
     }
     exibeGenes(filho1);
     exibeGenes(filho2);
-    getchar();
+    Filho1 = filho1;
+    Filho2 = filho2;
+//    aval[index++].gen = filho1;
+//    aval[index++].gen = filho2;
+//   // getchar();
 }
+*/

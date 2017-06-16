@@ -26,15 +26,15 @@ int main()
     Individuo *aval = iniciaPopulacao(100);
 
     carregaPopulacao2(aval);
-    exibeDataMining(aval,50,0);
-    getchar();
     carregaPopulacao(ind);
-    //exibeDataMining(ind);
-    //getchar();
+
+
     calculaAvaliacao(ind,aval,0);
-    crossOver(aval,50);
-    printf("\nmatrix:\n");
-    exibeDataMining(aval,52,0);
+    printf("Avaliacao: %f",aval[0].fitness);
+
+    //crossOver(aval,50);
+
+    //exibeDataMining(aval,52,0);
     getchar();
     return 0;
 }

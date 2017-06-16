@@ -26,7 +26,7 @@ int main()
     carregaPopulacao(ind);
     //exibeDataMining(ind);
     //getchar();
-    calculaAvaliacao(ind,aval,0);
+  //  calculaAvaliacao(ind,aval,0);
 
     return 0;
 }

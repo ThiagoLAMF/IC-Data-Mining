@@ -6,7 +6,13 @@
 //#include "defines.h"
 //#include "crossover.h"
 #include "populacao.h"
-
+/*
+1 - git pull (Pegar os arquivos do servidor)
+2 - git status (Verifica Conflitos)
+3 - git add .
+4 - git commit -m "Mensagem"
+5 - git push
+*/
 /** DEC. FUNÇÕES **/
 /** MAIN **/
 int main()
@@ -14,11 +20,10 @@ int main()
     srand( (unsigned)time(NULL) );
     srand(time(NULL));
 
-
     int i,j;
 
     Individuo *ind = iniciaPopulacao(TOTAL_INDIVIDUOS);
-    Individuo *aval = iniciaPopulacao(50);
+    Individuo *aval = iniciaPopulacao(100);
 
     carregaPopulacao2(aval);
     exibeDataMining(aval,50,0);
@@ -26,10 +31,14 @@ int main()
     carregaPopulacao(ind);
     //exibeDataMining(ind);
     //getchar();
-  //  calculaAvaliacao(ind,aval,0);
-
+    calculaAvaliacao(ind,aval,0);
+    crossOver(aval,50);
+    printf("\nmatrix:\n");
+    exibeDataMining(aval,52,0);
+    getchar();
     return 0;
 }
+
 
 
 

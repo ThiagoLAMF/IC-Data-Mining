@@ -7,7 +7,7 @@
 int calculaAvaliacao(Individuo *ind, Individuo *aval, int Classe)
 {
     int i,contadorC1 = 0,j,k;
-    int FP=0,TP=0,FN=0,TN=0; //TN: Diz que é negativo e é negativo
+    float FP=0,TP=0,FN=0,TN=0; //TN: Diz que é negativo e é negativo
     for(i=0; i<50; i++) //Percorre aleatorios
     {
         FP=0,TP=0,FN=0,TN=0;
@@ -16,7 +16,7 @@ int calculaAvaliacao(Individuo *ind, Individuo *aval, int Classe)
              int flagDiferente = 0;
              for(j = 0; j<TAM_INDIVIDUO;j++) //PErcorre os genes
              {
-                if(aval[i].gen[j].peso > 0.7)
+                if(aval[i].gen[j].peso > 0.7  )
                 {
                     int operador = aval[i].gen[j].operador;
                     //DIFERENTE, IGUAL, MENORIGUAL, MAIORIGUAL
@@ -69,8 +69,19 @@ int calculaAvaliacao(Individuo *ind, Individuo *aval, int Classe)
             //false negative (fn) - the rule predicts that the patient does not have a given disease but the patient does have it.
 
         }
-        printf("%d %d %d %d\n",TP, FP, TN, FN);
-        getchar();
+        printf("tp = %f FP = %f TN = %f FN = %f\n",TP, FP, TN, FN);
+        float SE,SP;
+        SE = (TP +1)/(TP + FN +1);
+        SP = (TN +1 )/(TN + FP +1);
+        printf("\n SE == %f", SE);
+        printf("\n SP == %f", SP);
+        float fitness;
+        fitness = SE * SP;
+        printf("\n Fitness == %f", fitness);
+
+
+
+        //getchar();
     }
     return 1;
 }
@@ -217,7 +228,7 @@ void carregaPopulacao2(Individuo *aval)
 }
 
 
-void crossOver(Individuo* ind)
+void crossOver(Individuo* ind,int index)
 {
 
     //Cross over, seleciona 2 pais e gera 2 filhos.
@@ -228,8 +239,8 @@ void crossOver(Individuo* ind)
 
     while (posA == posB)
     {
-        posA = rand()%(TOTAL_INDIVIDUOS);
-        posB = rand()%(TOTAL_INDIVIDUOS);
+        posA = rand()%(50);
+        posB = rand()%(50);
     }
 
 
@@ -261,9 +272,12 @@ void crossOver(Individuo* ind)
     }
     printf("\n menor = %d,maior = %d",menor,maior);
 
-    Gene* filho1 = (Gene*) malloc(sizeof(Gene)*TAM_INDIVIDUO);
-    Gene* filho2 = (Gene*) malloc(sizeof(Gene)*TAM_INDIVIDUO);
-    Gene* aux = (Gene*) malloc(sizeof(Gene)*TAM_INDIVIDUO);
+    //Gene* filho1 = (Gene*) malloc(sizeof(Gene)*TAM_INDIVIDUO);
+     //Gene* filho2 = (Gene*) malloc(sizeof(Gene)*TAM_INDIVIDUO);
+    Gene* filho1 = ind[index].gen;
+    Gene* filho2 = ind[index+1].gen;
+
+    //Gene* aux = (Gene*) malloc(sizeof(Gene)*TAM_INDIVIDUO);
     int g;
     for(g=0;g<TAM_INDIVIDUO+1;g++) // +1 para pegar a ultima coluna (classe)
     {
@@ -286,4 +300,5 @@ void crossOver(Individuo* ind)
     }
     exibeGenes(filho1);
     exibeGenes(filho2);
+    getchar();
 }

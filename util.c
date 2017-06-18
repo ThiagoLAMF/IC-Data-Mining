@@ -14,7 +14,7 @@ int partition(Individuo *geracao, int l, int r)
 
     for(j = l;j<=r-1;j++)
     {
-        if(geracao[j].fitness <= pivot)
+        if(geracao[j].fitness >= pivot)
         {
             i++;
             t = geracao[i];

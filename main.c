@@ -70,6 +70,8 @@ int main()
     calculaAvaliacao(arquivo,populacao,2); //Calcula avaliação
     //exibeDataMining(populacao,100,0);
     exibeFitness(populacao);
+    exibeGenes(populacao[0].gen);
+    printf("\nFITNESS: %f",populacao[0].fitness);
     //printf("%f",((float)(rand())/(float)(RAND_MAX))*0.2);
     getchar();
     return 0;

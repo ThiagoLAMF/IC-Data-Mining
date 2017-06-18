@@ -85,7 +85,7 @@ void exibeGenes(Gene *gen)
 {
     int j;
     printf("\nExibe genes do individuo:\n");
-    for(j=0; j<TAM_INDIVIDUO+1; j++)
+    for(j=0; j<TAM_INDIVIDUO; j++)
     {
         printf("%d,",gen[j].valor);
     }

@@ -332,35 +332,33 @@ int torneioEstocastico(Individuo *aval)
 /**
     Retorna dois elementos da população.
 **/
-int *roletaSemRepeticao(Individuo *populacao)
+void roletaSemRepeticao(Individuo *populacao,int *pai1,int *pai2)
 {
     // Não finalizado
-    int pais[2];
+    //int pais[2];
     int k = 0;
     do
     {
-        pais[0] = roleta(populacao); //Seleciona Pais
-        pais[1] = roleta(populacao);
+        *pai1 = roleta(populacao); //Seleciona Pais
+        *pai2 = roleta(populacao);
         k++;
     }
-    while(pais[0] == pais[1] && k < 10);
+    while(*pai1 == *pai2 && k < 10);
 
-    if(pais[0] == pais[1])
+    if(*pai1 == *pai2)
     {
         //Se após 10 tentativas, ainda seleciona pais iguais, seta a frequencia acumulada do elemento para -1
 
-        populacao[pais[0]].fitnessAcumulado = -1;
+        populacao[*pai1].fitnessAcumulado = -1;
         //é necessário calcular o fitness acumulado novamente
         calculafitnessAcumulado(populacao);
-        pais[1] = roleta(populacao);
-        populacao[pais[0]].fitnessAcumulado = 0; //volta o fitness para o elemento ser escolhido novamente
+        *pai2 = roleta(populacao);
+        populacao[*pai1].fitnessAcumulado = 0; //volta o fitness para o elemento ser escolhido novamente
         //printf("\n[SEM REPETICAO]: PAI1: %d | PAI2: %d",pai1,pai2);
 
     }
-    printf("\nPAI1: %d | PAI2: %d",pais[0],pais[1]);
+    printf("\nPAI1: %d | PAI2: %d",*pai1,*pai2);
     getchar();
-
-    return pais;
 }
 
 /**

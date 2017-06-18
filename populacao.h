@@ -37,6 +37,6 @@ void carregaPopulacao(Individuo *aval);
 void crossOver(Individuo* aval,int indexFilho,int indexFilho2,int indexPai1,int indexPai2);
 int torneioEstocastico(Individuo *aval);
 int roleta(Individuo *aval);
-int* roletaSemRepeticao(Individuo *aval);
+void roletaSemRepeticao(Individuo *populacao,int *pai1,int *pai2);
 int calculafitnessAcumulado(Individuo *aval);
 void exibeFitness(Individuo *aval);

@@ -48,12 +48,10 @@ int main()
                 pai2 = roleta(populacao);
                 k++;
             }
-            while(pai1 == pai2 && k < 10);
-            */
+            while(pai1 == pai2 && k < 10);*/
 
-            int *pais = roletaSemRepeticao(populacao);
-            pai1 = pais[0];
-            pai2 = pais[1];
+            calculafitnessAcumulado(populacao); //Calcula FA
+            roletaSemRepeticao(populacao,&pai1,&pai2);
 
             crossOver(populacao,indexFilhos,indexFilhos+1,pai1,pai2);
 

@@ -186,6 +186,8 @@ void carregaPopulacao(Individuo *aval)
                 aval[indexIndividuo].gen[index].valor = rand()%(4);
             index++;
         }
+        aval[indexIndividuo].fitness = 0;
+        aval[indexIndividuo].fitnessAcumulado = 0;
         indexIndividuo++;
     }
 }
@@ -324,8 +326,10 @@ int torneioEstocastico(Individuo *aval)
 
 }
 
-// Retorna dois inteiros
-int *roletaSemRepeticao(Individuo **populacao)
+/**
+    Retorna dois elementos da população.
+**/
+int *roletaSemRepeticao(Individuo *populacao)
 {
     // Não finalizado
     int pai1,pai2;
@@ -337,33 +341,37 @@ int *roletaSemRepeticao(Individuo **populacao)
         k++;
     }
     while(pai1 == pai2 && k < 10);
-    printf("\nPAI1: %d | PAI2: %d",pai1,pai2);
+
     if(pai1 == pai2)
     {
-        // Se após 10 tentativas, ainda seleciona pais iguais, "exclui" o elemento da populacao
-        Individuo *pai; //Salva ponteiro para o pai que será "excluido"
-        pai = &populacao[pai1];
+        //Se após 10 tentativas, ainda seleciona pais iguais, seta a frequencia acumulada do elemento para -1
 
-        populacao[pai1] = NULL;
-        //paiExcluido = NULL;
-
-        printf("\nPAI: %p  \nPAIEXCLUIDO:   \nPOPULACAO %p",pai,&populacao[pai1]);
+        populacao[pai1].fitnessAcumulado = -1;
+        //é necessário calcular o fitness acumulado novamente
+        calculafitnessAcumulado(populacao);
+        pai2 = roleta(populacao);
+        populacao[pai1].fitnessAcumulado = 0; //volta o fitness para o elemento ser escolhido novamente
+        //printf("\n[SEM REPETICAO]: PAI1: %d | PAI2: %d",pai1,pai2);
         getchar();
     }
-
-    else return 1;
+    printf("\nPAI1: %d | PAI2: %d",pai1,pai2);
+    return 1;
 }
+
+/**
+    Gira a roleta 3 vezes ignorando os elementos que tem fitnessAcumulado = -1
+**/
 int roleta(Individuo *aval)
 {
     int i=0,j=0,k=0,posMaior;
     float maior=0.00,A=0.00, aptA = 0.00, B=0.00, aptB = 0.00, C=0.00, aptC =0.00,somatotal=0.00;
     Gene *a,*b;
-    somatotal = aval[49].fitnessAcumulado;
+    somatotal = aval[TAM_POPULACAO-1].fitnessAcumulado;
 
     while (A == B && A == C)
     {
 
-        do{
+        /*do{
             A =((float)(rand())/(float)(RAND_MAX))*1;
            // printf("\nTESTE A\n aptidoes random:\n somatotal %f \nA = %f",somatotal,A);
            // getchar();
@@ -380,11 +388,11 @@ int roleta(Individuo *aval)
             C =((float)(rand())/(float)(RAND_MAX))*1;
           //  printf("\nTESTE C\n aptidoes random:\n somatotal %f \nC = %f",somatotal,C);
             //getchar();
-        }while (C > somatotal);
+        }while (C > somatotal);*/
 
-        /*A =((float)(rand())/(float)(RAND_MAX))*somatotal;
+        A =((float)(rand())/(float)(RAND_MAX))*somatotal;
         B =((float)(rand())/(float)(RAND_MAX))*somatotal;
-        C =((float)(rand())/(float)(RAND_MAX))*somatotal;*/
+        C =((float)(rand())/(float)(RAND_MAX))*somatotal;
 
     }
 
@@ -392,7 +400,7 @@ int roleta(Individuo *aval)
 
     //printf("\nA: %f B: %f C:%f - %f",A,B,C,somatotal);
 
-    while(aval[i].fitnessAcumulado <= A )
+    while(aval[i].fitnessAcumulado <= A)
     {
         i++;
 
@@ -438,14 +446,16 @@ int roleta(Individuo *aval)
 int calculafitnessAcumulado(Individuo *aval)
 {
     int soma=0,i,antes=0;
+    float fitnessAnterior = 0;
     for(i=0;i<50;i++)
     {
-        if (i==0)
-            aval[i].fitnessAcumulado = aval[i].fitness;
-        else
-            aval[i].fitnessAcumulado = aval[antes].fitnessAcumulado + aval[i].fitness;
+        if(aval[i].fitnessAcumulado != -1) //Usado para diminuir a seleção repetida na roleta
+        {
+            aval[i].fitnessAcumulado = aval[i].fitness + fitnessAnterior;
+            fitnessAnterior = aval[i].fitnessAcumulado;
+        }
+        //printf("\n[FA] %f",aval[i].fitnessAcumulado);
 
-        antes=i;
     }
 
 }
@@ -454,8 +464,8 @@ void exibeFitness(Individuo *aval)
 {
     int i;
     printf("\nPRINT FITNESS\n");
-    for(i=0;i<50;i++)
+    for(i=0;i<TAM_POPULACAO;i++)
     {
-        printf("\nfitness: %f,fitness Acumulado: %f",aval[i].fitness,aval[i].fitnessAcumulado);
+        printf("\n[%d]\t F: %.5f\tFA: %.5f",i,aval[i].fitness,aval[i].fitnessAcumulado);
     }
 }

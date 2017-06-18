@@ -14,15 +14,16 @@
 #define MENOR 2
 #define MAIORIGUAL 3
 
+
+
+typedef struct gene Gene;
+
 struct gene
 {
     float peso;
     int operador;//aleatorio
     int valor;
 };
-
-typedef struct gene Gene;
-
 struct individuo
 {
     Gene *gen;
@@ -41,6 +42,6 @@ void carregaPopulacao(Individuo *aval);
 void crossOver(Individuo* aval,int indexFilho,int indexFilho2,int indexPai1,int indexPai2);
 int torneioEstocastico(Individuo *aval);
 int roleta(Individuo *aval);
-int* roletaSemRepeticao(Individuo **aval);
+int* roletaSemRepeticao(Individuo *aval);
 int calculafitnessAcumulado(Individuo *aval);
 void exibeFitness(Individuo *aval);

@@ -5,8 +5,10 @@
 #define TAM_INDIVIDUO 34
 
 #define P_MUTACAO_POR_CAMPO 30 //Porcentagem mutacao por campo
-#define N_GERACOES 2
+#define N_GERACOES 50
 #define N_FILHOS 50
+
+#define TX_ELITISMO 1
 
 #define myrand ((float)(rand())/(float)(RAND_MAX) ) //macro myrand: gera numeros float entre 0 e 1
 #define DIFERENTE 0

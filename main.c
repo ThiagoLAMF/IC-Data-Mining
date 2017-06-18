@@ -33,7 +33,7 @@ int main()
 
     for(i = 0;i<N_GERACOES;i++)
     {
-        calculaAvaliacao(arquivo,populacao,0); //Calcula avaliação
+        calculaAvaliacao(arquivo,populacao,2); //Calcula avaliação
         quickSort(populacao,0,TAM_POPULACAO-1); //Ordena populacao
         calculafitnessAcumulado(populacao); //Calcula FA
         //exibeFitness(populacao);
@@ -61,9 +61,13 @@ int main()
 
             indexFilhos += 2;
         }
+        //exibeDataMining(populacao,100,0);
+        SobeFilhos(populacao,TX_ELITISMO,49,TAM_POPULACAO);
+        //exibeDataMining(populacao,100,0);
+        //getchar();
 
     }
-
+    calculaAvaliacao(arquivo,populacao,2); //Calcula avaliação
     //exibeDataMining(populacao,100,0);
     exibeFitness(populacao);
     //printf("%f",((float)(rand())/(float)(RAND_MAX))*0.2);

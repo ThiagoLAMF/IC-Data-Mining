@@ -4,6 +4,22 @@
 #endif
 
 
+/**
+    Sobe os filhos na matriz
+    posFilho = posição do primeiro filho
+    posIni = índice da posição inicial de inserção
+**/
+void SobeFilhos(Individuo *geracao,int posIni,int qtdFilhos,int posFilho)
+{
+    int i;
+
+    for(i=0;i<qtdFilhos;i++)
+    {
+        geracao[posIni] = geracao[posFilho];
+        posFilho++;
+        posIni++;
+    }
+}
 
 int partition(Individuo *geracao, int l, int r)
 {

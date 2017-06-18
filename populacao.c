@@ -357,8 +357,8 @@ void roletaSemRepeticao(Individuo *populacao,int *pai1,int *pai2)
         //printf("\n[SEM REPETICAO]: PAI1: %d | PAI2: %d",pai1,pai2);
 
     }
-    printf("\nPAI1: %d | PAI2: %d",*pai1,*pai2);
-    getchar();
+    //printf("\nPAI1: %d | PAI2: %d",*pai1,*pai2);
+    //getchar();
 }
 
 /**

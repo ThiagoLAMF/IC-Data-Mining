@@ -1,4 +1,8 @@
+#ifndef _POP_
+#define _POP_
 #include "populacao.h"
+#endif
+
 
 
 int partition(Individuo *geracao, int l, int r)
@@ -6,7 +10,7 @@ int partition(Individuo *geracao, int l, int r)
     Individuo t;
     int i = l-1;
     int j;
-    int pivot = geracao[r].fitness;
+    float pivot = geracao[r].fitness;
 
     for(j = l;j<=r-1;j++)
     {

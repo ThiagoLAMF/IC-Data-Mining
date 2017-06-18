@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifndef _POP_
+#define _POP_
 #include "populacao.h"
+#endif
 
 
 int calculaAvaliacao(Individuo *ind, Individuo *aval, int Classe)
@@ -332,30 +335,32 @@ int torneioEstocastico(Individuo *aval)
 int *roletaSemRepeticao(Individuo *populacao)
 {
     // Não finalizado
-    int pai1,pai2;
+    int pais[2];
     int k = 0;
     do
     {
-        pai1 = roleta(populacao); //Seleciona Pais
-        pai2 = roleta(populacao);
+        pais[0] = roleta(populacao); //Seleciona Pais
+        pais[1] = roleta(populacao);
         k++;
     }
-    while(pai1 == pai2 && k < 10);
+    while(pais[0] == pais[1] && k < 10);
 
-    if(pai1 == pai2)
+    if(pais[0] == pais[1])
     {
         //Se após 10 tentativas, ainda seleciona pais iguais, seta a frequencia acumulada do elemento para -1
 
-        populacao[pai1].fitnessAcumulado = -1;
+        populacao[pais[0]].fitnessAcumulado = -1;
         //é necessário calcular o fitness acumulado novamente
         calculafitnessAcumulado(populacao);
-        pai2 = roleta(populacao);
-        populacao[pai1].fitnessAcumulado = 0; //volta o fitness para o elemento ser escolhido novamente
+        pais[1] = roleta(populacao);
+        populacao[pais[0]].fitnessAcumulado = 0; //volta o fitness para o elemento ser escolhido novamente
         //printf("\n[SEM REPETICAO]: PAI1: %d | PAI2: %d",pai1,pai2);
-        getchar();
+
     }
-    printf("\nPAI1: %d | PAI2: %d",pai1,pai2);
-    return 1;
+    printf("\nPAI1: %d | PAI2: %d",pais[0],pais[1]);
+    getchar();
+
+    return pais;
 }
 
 /**

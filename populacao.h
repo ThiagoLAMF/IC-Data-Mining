@@ -14,24 +14,19 @@
 #define MENOR 2
 #define MAIORIGUAL 3
 
-
-
-typedef struct gene Gene;
-
-struct gene
+typedef struct gene
 {
     float peso;
     int operador;//aleatorio
     int valor;
-};
-struct individuo
+}Gene;
+typedef struct individuo
 {
     Gene *gen;
     float fitness;
     float fitnessAcumulado;
-};
+}Individuo;
 
-typedef struct individuo Individuo;
 
 int calculaAvaliacao(Individuo *ind, Individuo *aval, int Classe);
 void exibeGenes(Gene *gen);

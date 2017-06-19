@@ -51,15 +51,15 @@ int calculaAvaliacao(Individuo *ind, Individuo *aval, int Classe)
             {
                 TP++;
             }
-            if(Classe == ind[k].gen[34].valor && flagDiferente)//Regra diz que paciente tem e paciente nao tem
+            else if(Classe == ind[k].gen[34].valor && flagDiferente)//Regra diz que paciente tem e paciente nao tem
             {
                 FP++;
             }
-            if(Classe != ind[k].gen[34].valor && !flagDiferente) //Regradiz que paciente nao tem e ele tem
+            else if(Classe != ind[k].gen[34].valor && !flagDiferente) //Regradiz que paciente nao tem e ele tem
             {
                 FN++;
             }
-            if(Classe != ind[k].gen[34].valor && flagDiferente) //Regra diz que paciente nao tem e ele não tem
+            else if(Classe != ind[k].gen[34].valor && flagDiferente) //Regra diz que paciente nao tem e ele não tem
             {
                 TN++;
             }

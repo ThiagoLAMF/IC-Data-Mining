@@ -61,18 +61,29 @@ int main()
 
             indexFilhos += 2;
         }
+
+        SobeFilhos(populacao,TX_ELITISMO,TAM_POPULACAO-1,TAM_POPULACAO);
+
         //exibeDataMining(populacao,100,0);
-        SobeFilhos(populacao,TX_ELITISMO,49,TAM_POPULACAO);
-        //exibeDataMining(populacao,100,0);
+        //calculaAvaliacao(arquivo,populacao,1); //Calcula avaliação
+        //exibeFitness(populacao);
         //getchar();
 
     }
+
     calculaAvaliacao(arquivo,populacao,2); //Calcula avaliação
+    quickSort(populacao,0,TAM_POPULACAO-1); //Ordena populacao
+
+    //Debug
     //exibeDataMining(populacao,100,0);
     exibeFitness(populacao);
-    exibeGenes(populacao[0].gen);
-    printf("\nFITNESS: %f",populacao[0].fitness);
-    //printf("%f",((float)(rand())/(float)(RAND_MAX))*0.2);
+    //exibeGenes(populacao[0].gen);
+    //printf("\nFITNESS: %f",populacao[0].fitness);
+
+    //Libera memoria:
+    //liberaPopulacao(arquivo,TOTAL_INDIVIDUOS_ARQUIVO);
+    //liberaPopulacao(populacao,TAM_POPULACAO_TOTAL);
+
     getchar();
     return 0;
 }

@@ -39,10 +39,11 @@ int partition(Individuo *geracao, int l, int r)
         }
     }
 
-   t = geracao[i+1];
-   geracao[i+1] = geracao[r];
-   geracao[r] = t;
-   return i+1;
+    t = geracao[i+1];
+    geracao[i+1] = geracao[r];
+    geracao[r] = t;
+
+    return i+1;
 }
 
 /**

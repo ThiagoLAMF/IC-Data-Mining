@@ -6,11 +6,10 @@
 #include "populacao.h"
 #endif
 
-
 int calculaAvaliacao(Individuo *ind, Individuo *aval, int Classe)
 {
-    int i,contadorC1 = 0,j,k,posMaiorFitness;
-    float FP=0,TP=0,FN=0,TN=0; //TN: Diz que � negativo e � negativo
+    int i,contadorC1 = 0,j,k,posMaiorFitness = -1;
+    float FP=0,TP=0,FN=0,TN=0;
     float SE,SP;
     float fitness;
     float maiorFitness = 0;
@@ -56,30 +55,29 @@ int calculaAvaliacao(Individuo *ind, Individuo *aval, int Classe)
             {
                 FP++;
             }
-            if(Classe != ind[k].gen[34].valor && !flagDiferente) //Regradiz que paciente nao tem e paciente realmente nao tem
-            {
-                TN++;
-            }
-            if(Classe != ind[k].gen[34].valor && flagDiferente) //Regra diz
+            if(Classe != ind[k].gen[34].valor && !flagDiferente) //Regradiz que paciente nao tem e ele tem
             {
                 FN++;
             }
+            if(Classe != ind[k].gen[34].valor && flagDiferente) //Regra diz que paciente nao tem e ele não tem
+            {
+                TN++;
+            }
         }
 
-        SE = (TP +1)/(TP + FN +1);
-        SP = (TN +1 )/(TN + FP +1);
-
+        SE = (TP+1)/(TP + FN +1);
+        SP = (TN+1)/(TN + FP +1);
         fitness = SE * SP;
-        if (fitness > maiorFitness)
+
+        /*if (fitness > maiorFitness)
         {
             maiorFitness = fitness;
             posMaiorFitness = i;
-        }
+        }*/
         aval[i].fitness = fitness;
     }
     return posMaiorFitness;
 }
-
 
 void exibeGenes(Gene *gen)
 {
@@ -100,16 +98,13 @@ void exibeDataMining(Individuo *ind,int tamPopulacao,int exibeClasse)
     printf("-----Individuos----\n");
     for(i=0; i<tamPopulacao; i++)
     {
-        //printf("[%d]\t",i);
         for(j=0; j<tamIndividuo; j++)
         {
             printf("%d,",ind[i].gen[j].valor);
         }
         printf("\n");
-
     }
 }
-
 
 Individuo* iniciaPopulacao(int tamPopulacao)
 {
@@ -122,6 +117,17 @@ Individuo* iniciaPopulacao(int tamPopulacao)
         ind[i].gen = gen;
     }
     return ind;
+}
+
+void liberaPopulacao(Individuo* populacao,int tamPopulacao)
+{
+    int i;
+    for(i=0; i<tamPopulacao; i++)
+    {
+        Gene *gen = populacao[i].gen;
+        free(gen);
+    }
+    free(populacao);
 }
 
 void carregaArquivo(Individuo *ind)
@@ -142,10 +148,8 @@ void carregaArquivo(Individuo *ind)
         exit(1);
     }
 
-
     while( fgets(buffer, 100, arq) != NULL ) //Pega linha do arquivo
     {
-
         index = 0;
         ultimo_token = strtok( buffer, delimitador ); //Pega cada elemento
         while( ultimo_token != NULL )
@@ -158,9 +162,9 @@ void carregaArquivo(Individuo *ind)
             index++;
         }
         indexIndividuo++;
+        if(indexIndividuo >= TOTAL_INDIVIDUOS_ARQUIVO) break;
     }
 }
-
 
 void carregaPopulacao(Individuo *aval)
 {
@@ -172,12 +176,10 @@ void carregaPopulacao(Individuo *aval)
         index = 0;
         while( index != TAM_INDIVIDUO )
         {
-
-            if (rand()%(2) < 1) //flag vai definir si o peso é negativo ou não
-                aval[indexIndividuo].gen[index].peso = myrand;
-
-            else
-                aval[indexIndividuo].gen[index].peso = -myrand;
+            //if (rand()%(2) < 1) //flag vai definir si o peso é negativo ou não
+            aval[indexIndividuo].gen[index].peso = myrand;
+            //else
+            //    aval[indexIndividuo].gen[index].peso = -myrand;
 
             aval[indexIndividuo].gen[index].operador = rand()%(4);
 
@@ -195,28 +197,22 @@ void carregaPopulacao(Individuo *aval)
     }
 }
 
-
-
 int mutacao(Gene *gen)
 {
     int total_genes = (int) (P_MUTACAO_POR_CAMPO * TAM_INDIVIDUO) / 100;
 
-    // numero aleatorio que fara a troca
     int i,j,num1, num2,pos1,pos2;
     float pesoAux = 0;
     int operadorAux;
     int valorAux;
-
-    //printf("\nantes a mutacao\n");
-    //exibeGenes(gen);
 
     for(i=0; i<=total_genes; i++)
     {
         //TROCA PESO:
         do
         {
-            num1 = rand()%(33);
-            num2 = rand()%(33);
+            num1 = rand()%(34);
+            num2 = rand()%(34);
         }
         while (num1 == num2);
         pesoAux = gen[num1].peso;
@@ -226,8 +222,8 @@ int mutacao(Gene *gen)
         //TROCA OPERADOR
         do
         {
-            num1 = rand()%(33);
-            num2 = rand()%(33);
+            num1 = rand()%(34);
+            num2 = rand()%(34);
         }
         while (num1 == num2);
         operadorAux = gen[num1].operador;
@@ -240,16 +236,15 @@ int mutacao(Gene *gen)
             num1 = rand()%(33);
             num2 = rand()%(33);
         }
-        while (num1 == 10 && num2 == 10);
+        while (num1 == 10 || num2 == 10);
         valorAux = gen[num1].valor;
         gen[num1].valor = gen[num2].valor;
         gen[num2].valor = valorAux;
 
+        gen[10].valor = rand()%(2);
+        gen[33].valor = rand()%(100);
+
     }
-    //printf("\napos a mutacao\n");
-    //exibeGenes(gen);
-
-
 }
 
 void crossOver(Individuo* aval,int indexFilho,int indexFilho2,int indexPai1,int indexPai2)
@@ -269,7 +264,6 @@ void crossOver(Individuo* aval,int indexFilho,int indexFilho2,int indexPai1,int 
     }
     while(pos1==pos2);
 
-    //printf("\n pos1 = %d,\npos2 = %d",pos1,pos2);
     int menor =0, maior =0;
     if (pos1 < pos2)
     {
@@ -281,7 +275,6 @@ void crossOver(Individuo* aval,int indexFilho,int indexFilho2,int indexPai1,int 
         menor = pos2;
         maior = pos1;
     }
-    //printf("\n menor = %d,maior = %d",menor,maior);
 
     Gene* filho1 = aval[indexFilho].gen;
     Gene* filho2 = aval[indexFilho2].gen;
@@ -326,7 +319,6 @@ int torneioEstocastico(Individuo *aval)
     }
     printf("\npos Pai 1 == %d\npos Pai 2 == %d\n",posPai1,posPai2);
     return 1; //
-
 }
 
 /**
@@ -334,8 +326,7 @@ int torneioEstocastico(Individuo *aval)
 **/
 void roletaSemRepeticao(Individuo *populacao,int *pai1,int *pai2)
 {
-    // Não finalizado
-    //int pais[2];
+
     int k = 0;
     do
     {
@@ -348,14 +339,11 @@ void roletaSemRepeticao(Individuo *populacao,int *pai1,int *pai2)
     if(*pai1 == *pai2)
     {
         //Se após 10 tentativas, ainda seleciona pais iguais, seta a frequencia acumulada do elemento para -1
-
         populacao[*pai1].fitnessAcumulado = -1;
-        //é necessário calcular o fitness acumulado novamente
-        calculafitnessAcumulado(populacao);
+        calculafitnessAcumulado(populacao);//é necessário calcular o fitness acumulado novamente
+
         *pai2 = roleta(populacao);
         populacao[*pai1].fitnessAcumulado = 0; //volta o fitness para o elemento ser escolhido novamente
-        //printf("\n[SEM REPETICAO]: PAI1: %d | PAI2: %d",pai1,pai2);
-
     }
     //printf("\nPAI1: %d | PAI2: %d",*pai1,*pai2);
     //getchar();
@@ -374,58 +362,38 @@ int roleta(Individuo *aval)
     while (A == B && A == C)
     {
 
-        /*do{
+        do{
             A =((float)(rand())/(float)(RAND_MAX))*1;
-           // printf("\nTESTE A\n aptidoes random:\n somatotal %f \nA = %f",somatotal,A);
-           // getchar();
         }while (A > somatotal);
-
 
         do{
             B =((float)(rand())/(float)(RAND_MAX))*1;
-            //printf("\nTESTE B\n aptidoes random:\n somatotal %f \nB = %f",somatotal,B);
-            //getchar();
         }while (B > somatotal);
 
         do{
             C =((float)(rand())/(float)(RAND_MAX))*1;
-          //  printf("\nTESTE C\n aptidoes random:\n somatotal %f \nC = %f",somatotal,C);
-            //getchar();
-        }while (C > somatotal);*/
+        }while (C > somatotal);
 
-        A =((float)(rand())/(float)(RAND_MAX))*somatotal;
+        /*A =((float)(rand())/(float)(RAND_MAX))*somatotal;
         B =((float)(rand())/(float)(RAND_MAX))*somatotal;
-        C =((float)(rand())/(float)(RAND_MAX))*somatotal;
+        C =((float)(rand())/(float)(RAND_MAX))*somatotal;*/
 
     }
-
-
 
     //printf("\nA: %f B: %f C:%f - %f",A,B,C,somatotal);
 
-    while(aval[i].fitnessAcumulado <= A)
-    {
+    while(i<TAM_POPULACAO-1 && aval[i].fitnessAcumulado <= A)
         i++;
 
-    }
-    aptA = aval[i].fitness;
-    //printf("\nA[i] = %d\n aptA: %f \n",i,aptA);
-
-    while(aval[j].fitnessAcumulado <= B)
-    {
+    while(j<TAM_POPULACAO-1 && aval[j].fitnessAcumulado <= B)
         j++;
 
-    }
-    aptB = aval[j].fitness;
-    //printf("\nB[j] = %d\n aptB: %f \n",j,aptB);
-
-    while(aval[k].fitnessAcumulado <= C)
-    {
+    while(k<TAM_POPULACAO-1 && aval[k].fitnessAcumulado <= C)
         k++;
 
-    }
+    aptA = aval[i].fitness;
+    aptB = aval[j].fitness;
     aptC = aval[k].fitness;
-    //printf("\nC[k] = %d\n aptC: %f \n",k,aptC);
 
     if (aptA >= aptB && aptA >= aptC)
     {
@@ -443,7 +411,6 @@ int roleta(Individuo *aval)
         posMaior = k;
     }
     return posMaior;
-
 }
 
 int calculafitnessAcumulado(Individuo *aval)
@@ -457,10 +424,7 @@ int calculafitnessAcumulado(Individuo *aval)
             aval[i].fitnessAcumulado = aval[i].fitness + fitnessAnterior;
             fitnessAnterior = aval[i].fitnessAcumulado;
         }
-        //printf("\n[FA] %f",aval[i].fitnessAcumulado);
-
     }
-
 }
 
 void exibeFitness(Individuo *aval)

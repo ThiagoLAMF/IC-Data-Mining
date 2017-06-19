@@ -36,6 +36,7 @@ void exibeDataMining(Individuo *ind,int tam_pop,int exibeClasse);
 Individuo* iniciaPopulacao(int tamPopulacao);
 void carregaArquivo(Individuo *ind);
 void carregaPopulacao(Individuo *aval);
+void liberaPopulacao(Individuo* populacao,int tamPopulacao);
 void crossOver(Individuo* aval,int indexFilho,int indexFilho2,int indexPai1,int indexPai2);
 int torneioEstocastico(Individuo *aval);
 int roleta(Individuo *aval);

@@ -61,3 +61,57 @@ void quickSort(Individuo *geracao, int l, int r)
    }
 
 }
+
+
+ void exibeGenesPeso(Gene *gen)
+{
+    int j;
+    printf("\n-----------REGRA:----------\n");
+    char *operador;
+    char operadores[4][3] = {"!=\0","=\0","< \0",">=\0"};
+    char atributos[34][50] = {
+        "erythema \0",
+        "scaling \0",
+        "definite borders \0",
+        "itching \0",
+        "koebner phenomenon \0",
+        "polygonal papules\0",
+        "follicular papules \0",
+        "oral mucosal involvement \0",
+        "knee and elbow involvement \0",
+        "scalp involvement \0",
+        "family history, (0 or 1) \0",
+        "melanin incontinence \0",
+        "eosinophils in the infiltrate \0",
+        "PNL infiltrate \0",
+        "fibrosis of the papillary dermis \0",
+        "exocytosis \0",
+        "acanthosis \0",
+        "hyperkeratosis \0",
+        "parakeratosis\0",
+        "clubbing of the rete ridges \0",
+        "elongation of the rete ridges \0",
+        "thinning of the suprapapillary epidermis \0",
+        "spongiform pustule \0",
+        "munro microabcess \0",
+        "focal hypergranulosis \0",
+        "disappearance of the granular layer \0",
+        "vacuolisation and damage of basal layer \0",
+        "spongiosis \0",
+        "saw-tooth appearance of retes \0",
+        "follicular horn plug \0",
+        "perifollicular parakeratosis \0",
+        "inflammatory monoluclear inflitrate \0",
+        "band-like infiltrate\0",
+        "Age\0"
+    };
+
+    for(j=0; j<TAM_INDIVIDUO; j++)
+    {
+        if(gen[j].peso > 0.7)
+        {
+            printf("%s %s %d and\n",atributos[j],operadores[gen[j].operador],gen[j].valor);
+        }
+    }
+}
+

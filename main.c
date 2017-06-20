@@ -71,7 +71,7 @@ int main()
         //getchar();
 
     }
-    exibeGenes2(populacao[0].gen);
+
 
     calculaAvaliacao(arquivo,populacao,2); //Calcula avaliação
     quickSort(populacao,0,TAM_POPULACAO-1); //Ordena populacao
@@ -79,7 +79,7 @@ int main()
     //Debug
     //exibeDataMining(populacao,100,0);
     exibeFitness(populacao);
-    //exibeGenes(populacao[0].gen);
+    exibeGenesPeso(populacao[0].gen);
     //printf("\nFITNESS: %f",populacao[0].fitness);
 
     //Libera memoria:

@@ -89,38 +89,6 @@ void exibeGenes(Gene *gen)
     }
 }
 
-void exibeGenes2(Gene *gen)
-{
-    int j;
-    printf("\nExibe genes do individuo:\n");
-    for(j=0; j<TAM_INDIVIDUO; j++)
-    {
-        if(gen[j].peso > 0.7)
-        {
-            printf("gene[%d] = %d,",j);
-            if (gen[j].operador == 0)
-                {
-                    printf(" != ");
-                }
-            else if(gen[j].operador == 1)
-                {
-                    printf(" == ");
-                }
-             else if (gen[j].operador == 2)
-                {
-                    printf(" < ");
-                }
-             else if (gen[j].operador == 3)
-                {
-                    printf(" >= ");
-                }
-            printf(" %d,",gen[j].valor);
-        }
-        printf("\n");
-    }
-}
-
-
 void exibeDataMining(Individuo *ind,int tamPopulacao,int exibeClasse)
 {
     int tamIndividuo = TAM_INDIVIDUO;

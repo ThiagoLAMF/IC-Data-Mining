@@ -89,6 +89,38 @@ void exibeGenes(Gene *gen)
     }
 }
 
+void exibeGenes2(Gene *gen)
+{
+    int j;
+    printf("\nExibe genes do individuo:\n");
+    for(j=0; j<TAM_INDIVIDUO; j++)
+    {
+        if(gen[j].peso > 0.7)
+        {
+            printf("gene[%d] = %d,",j);
+            if (gen[j].operador == 0)
+                {
+                    printf(" != ");
+                }
+            else if(gen[j].operador == 1)
+                {
+                    printf(" == ");
+                }
+             else if (gen[j].operador == 2)
+                {
+                    printf(" < ");
+                }
+             else if (gen[j].operador == 3)
+                {
+                    printf(" >= ");
+                }
+            printf(" %d,",gen[j].valor);
+        }
+        printf("\n");
+    }
+}
+
+
 void exibeDataMining(Individuo *ind,int tamPopulacao,int exibeClasse)
 {
     int tamIndividuo = TAM_INDIVIDUO;
@@ -124,8 +156,7 @@ void liberaPopulacao(Individuo* populacao,int tamPopulacao)
     int i;
     for(i=0; i<tamPopulacao; i++)
     {
-        Gene *gen = populacao[i].gen;
-        free(gen);
+        free(populacao[i].gen);
     }
     free(populacao);
 }
@@ -254,7 +285,6 @@ void crossOver(Individuo* aval,int indexFilho,int indexFilho2,int indexPai1,int 
     b = aval[indexPai2].gen;
     //exibeGenes(a);
     //exibeGenes(b);
-
     int pos1,pos2;
 
     do

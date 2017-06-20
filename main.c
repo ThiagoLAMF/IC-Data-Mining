@@ -64,12 +64,14 @@ int main()
 
         SobeFilhos(populacao,TX_ELITISMO,TAM_POPULACAO-1,TAM_POPULACAO);
 
+
         //exibeDataMining(populacao,100,0);
         //calculaAvaliacao(arquivo,populacao,1); //Calcula avaliação
         //exibeFitness(populacao);
         //getchar();
 
     }
+    exibeGenes2(populacao[0].gen);
 
     calculaAvaliacao(arquivo,populacao,2); //Calcula avaliação
     quickSort(populacao,0,TAM_POPULACAO-1); //Ordena populacao

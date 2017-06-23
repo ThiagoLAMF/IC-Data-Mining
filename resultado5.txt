@@ -1,0 +1,73 @@
+
+--------------------
+CLASSE 5
+koebner phenomenon  <  1 and
+exocytosis  <  2 and
+[FITNESS TREINAMENTO] 0.730958
+[FITNESS TESTE] 0.570175
+--------------------
+CLASSE 5
+fibrosis of the papillary dermis  >= 2 and
+[FITNESS TREINAMENTO] 0.801597
+[FITNESS TESTE] 0.750000
+--------------------
+CLASSE 5
+fibrosis of the papillary dermis  != 0 and
+munro microabcess  != 2 and
+band-like infiltrate <  2 and
+[FITNESS TREINAMENTO] 0.993243
+[FITNESS TESTE] 1.000000
+--------------------
+CLASSE 5
+fibrosis of the papillary dermis  >= 1 and
+spongiform pustule  <  1 and
+munro microabcess  = 0 and
+[FITNESS TREINAMENTO] 0.986486
+[FITNESS TESTE] 1.000000
+--------------------
+CLASSE 5
+thinning of the suprapapillary epidermis  != 2 and
+spongiform pustule  <  1 and
+vacuolisation and damage of basal layer  <  3 and
+spongiosis  <  2 and
+[FITNESS TREINAMENTO] 0.770270
+[FITNESS TESTE] 0.747807
+--------------------
+CLASSE 5
+koebner phenomenon  <  1 and
+PNL infiltrate  <  1 and
+focal hypergranulosis  <  1 and
+[FITNESS TREINAMENTO] 0.851351
+[FITNESS TESTE] 0.894737
+--------------------
+CLASSE 5
+fibrosis of the papillary dermis  >= 1 and
+munro microabcess  >= 0 and
+saw-tooth appearance of retes  <  2 and
+[FITNESS TREINAMENTO] 0.993243
+[FITNESS TESTE] 1.000000
+--------------------
+CLASSE 5
+eosinophils in the infiltrate  != 3 and
+fibrosis of the papillary dermis  != 0 and
+spongiform pustule  <  3 and
+munro microabcess  <  3 and
+Age != 86 and
+[FITNESS TREINAMENTO] 0.986486
+[FITNESS TESTE] 1.000000
+--------------------
+CLASSE 5
+fibrosis of the papillary dermis  >= 1 and
+hyperkeratosis  != 0 and
+[FITNESS TREINAMENTO] 0.586916
+[FITNESS TESTE] 0.416667
+--------------------
+CLASSE 5
+oral mucosal involvement  <  1 and
+fibrosis of the papillary dermis  >= 1 and
+munro microabcess  <  1 and
+follicular horn plug  != 3 and
+band-like infiltrate <  1 and
+Age <  71 and
+[FITNESS TREINAMENTO] 0.993243
+[FITNESS TESTE] 0.916667

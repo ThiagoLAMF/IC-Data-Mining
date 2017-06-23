@@ -1,0 +1,70 @@
+
+--------------------
+CLASSE 6
+scaling  >= 1 and
+itching  != 3 and
+spongiform pustule  >= 0 and
+follicular horn plug  >= 2 and
+[FITNESS TREINAMENTO] 0.444444
+[FITNESS TESTE] 1.000000
+--------------------
+CLASSE 6
+itching  <  3 and
+follicular papules  != 0 and
+munro microabcess  = 0 and
+[FITNESS TREINAMENTO] 0.987578
+[FITNESS TESTE] 0.941176
+--------------------
+CLASSE 6
+perifollicular parakeratosis  >= 1 and
+[FITNESS TREINAMENTO] 0.993789
+[FITNESS TESTE] 1.000000
+--------------------
+CLASSE 6
+spongiosis  != 2 and
+perifollicular parakeratosis  >= 1 and
+[FITNESS TREINAMENTO] 1.000000
+[FITNESS TESTE] 0.333333
+--------------------
+CLASSE 6
+polygonal papules != 1 and
+perifollicular parakeratosis  != 0 and
+[FITNESS TREINAMENTO] 0.993789
+[FITNESS TESTE] 1.000000
+--------------------
+CLASSE 6
+follicular horn plug  != 0 and
+perifollicular parakeratosis  >= 1 and
+[FITNESS TREINAMENTO] 0.883368
+[FITNESS TESTE] 1.000000
+--------------------
+CLASSE 6
+follicular papules  >= 1 and
+oral mucosal involvement  <  1 and
+elongation of the rete ridges  != 2 and
+[FITNESS TREINAMENTO] 0.981366
+[FITNESS TESTE] 0.964706
+--------------------
+CLASSE 6
+follicular papules  >= 1 and
+clubbing of the rete ridges  <  2 and
+[FITNESS TREINAMENTO] 0.975155
+[FITNESS TESTE] 0.941176
+--------------------
+CLASSE 6
+scaling  >= 0 and
+itching  <  2 and
+melanin incontinence  = 0 and
+[FITNESS TREINAMENTO] 0.568668
+[FITNESS TESTE] 0.494118
+--------------------
+CLASSE 6
+follicular papules  >= 1 and
+inflammatory monoluclear inflitrate  != 3 and
+[FITNESS TREINAMENTO] 0.962733
+[FITNESS TESTE] 0.635294
+--------------------
+CLASSE 6
+perifollicular parakeratosis  != 0 and
+[FITNESS TREINAMENTO] 0.993789
+[FITNESS TESTE] 1.000000

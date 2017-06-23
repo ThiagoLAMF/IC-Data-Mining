@@ -13,53 +13,52 @@ int calculaAvaliacao(Individuo *arquivo, Individuo *populacao, int Classe)
     float SE=0,SP=0;
     float fitness;
     int i,j,k;
-    int flag;
+    int flagIgual;
 
     for(i=0;i<TAM_POPULACAO;i++)
     {
-        flag = 1;
+        flagIgual = 1;
         FP=0,TP=0,FN=0,TN=0;
 
         for(j=0;j<TOTAL_TREINAMENTO;j++)
         {
-            flag = 1;
-            for(k=0;k<TAM_INDIVIDUO && flag;k++)
+            flagIgual = 1;
+            for(k=0;k<TAM_INDIVIDUO && flagIgual;k++)
             {
                 if(populacao[i].gen[k].peso > 0.7)
                 {
-                    //printf("\nOPERADOR %d\n",populacao[i].gen[k].operador);
                     switch(populacao[i].gen[k].operador)
                     {
                         case 0: //Diferente
                             if(arquivo[j].gen[k].valor != populacao[i].gen[k].valor)
-                                flag = 1;
+                                flagIgual = 1;
                             else
-                                flag = 0;
+                                flagIgual = 0;
                             break;
 
                         case 1: //Igual
                             if(arquivo[j].gen[k].valor == populacao[i].gen[k].valor)
-                                flag = 1;
+                                flagIgual = 1;
                             else
-                                flag = 0;
+                                flagIgual = 0;
                             break;
                         case 2: // Menor
                             if(arquivo[j].gen[k].valor < populacao[i].gen[k].valor)
-                                flag = 1;
+                                flagIgual = 1;
                             else
-                                flag = 0;
+                                flagIgual = 0;
                             break;
                         case 3: //Maior igual
                             if(arquivo[j].gen[k].valor >= populacao[i].gen[k].valor)
-                                flag = 1;
+                                flagIgual = 1;
                             else
-                                flag = 0;
+                                flagIgual = 0;
                             break;
                         default: break;
                     }
                 }
             }
-            if(flag)
+            if(flagIgual)
             {
                 if(arquivo[j].gen[34].valor == Classe)
                     TP++;
@@ -75,32 +74,19 @@ int calculaAvaliacao(Individuo *arquivo, Individuo *populacao, int Classe)
                     TN++;
             }
         }
-        //printf("TN + FP %f  %f", TP,FN);
         if((TN + FP) == 0)
-        {
             SP = TN /1;
-        }
         else
-        {
             SP = TN / (TN + FP);
-        }
+
         if((TP + FN) == 0)
-        {
             SE = TP /1;
-        }
         else
-        {
             SE = TP / (TP + FN);
-        }
-        //printf("\nSE: %f SP: %f",SE,SP);
-        SE = TP/ (TP + FN );
-        SP = TN/ (TN + FP );
-        //printf("\nSE: %f SP: %f",SE,SP);
+
         fitness = SP * SE;
 
         populacao[i].fitness = fitness;
-        //printf("\nFitness: %f",fitness);
-        //getchar();
     }
 
     return 1;
@@ -202,7 +188,6 @@ void carregaPopulacao(Individuo *aval)
         index = 0;
         while( index != TAM_INDIVIDUO )
         {
-            //if (rand()%(2) < 1) //flag vai definir si o peso é negativo ou não
 
                 if (index == 10) //Hist. Fam. 0 ou 1
                 {
@@ -217,13 +202,6 @@ void carregaPopulacao(Individuo *aval)
                     aval[indexIndividuo].gen[index].peso = myrand;
                     aval[indexIndividuo].gen[index].operador = rand()%(4);
                 }
-                else if (index == 34) //Classe
-                {
-                    aval[indexIndividuo].gen[index].valor = (rand()%(6)) +1; // tira o 6 das opcoes.
-                    aval[indexIndividuo].gen[index].peso = 1;
-                    aval[indexIndividuo].gen[index].operador = rand()%(4);
-                }
-
                 else
                 {
                     aval[indexIndividuo].gen[index].valor = (rand()%(4));
@@ -295,8 +273,7 @@ void crossOver(Individuo* aval,int indexFilho,int indexFilho2,int indexPai1,int 
     Gene *a,*b;
     a = aval[indexPai1].gen;
     b = aval[indexPai2].gen;
-    //exibeGenes(a);
-    //exibeGenes(b);
+
     int pos1,pos2;
 
     do
@@ -341,8 +318,6 @@ void crossOver(Individuo* aval,int indexFilho,int indexFilho2,int indexPai1,int 
         }
 
     }
-    //exibeGenes(filho1);
-    //exibeGenes(filho2);
 }
 
 // ---------------SELEÇÃO------------------
@@ -415,14 +390,16 @@ int roleta(Individuo *aval)
         do{
             C =((float)(rand())/(float)(RAND_MAX))*1;
         }while (C > somatotal);
-
-        /*A =((float)(rand())/(float)(RAND_MAX))*somatotal;
+        /*
+        A =((float)(rand())/(float)(RAND_MAX))*somatotal;
         B =((float)(rand())/(float)(RAND_MAX))*somatotal;
         C =((float)(rand())/(float)(RAND_MAX))*somatotal;*/
-
+        if(A == 0 && B == 0 && C == 0)
+        {
+            printf("Erro no rand()");
+            exit(1);
+        }
     }
-
-    //printf("\nA: %f B: %f C:%f - %f",A,B,C,somatotal);
 
     while(i<TAM_POPULACAO-1 && aval[i].fitnessAcumulado <= A)
         i++;
@@ -479,7 +456,7 @@ void exibeFitness(Individuo *aval)
     }
 }
 
-void calculaFitnessTeste(Gene *regra,Individuo *base, int Classe)
+float calculaFitnessTeste(Gene *regra,Individuo *base, int Classe)
 {
     float FP=0,TP=0,FN=0,TN=0;
     float SE=0,SP=0;
@@ -541,29 +518,18 @@ void calculaFitnessTeste(Gene *regra,Individuo *base, int Classe)
                 TN++;
         }
     }
+    if((TN + FP) == 0)
+        SP = TN /1;
+    else
+        SP = TN / (TN + FP);
 
-    //printf("TN + FP %f  %f", TP,FN);
-        if((TN + FP) == 0)
-        {
-            SP = TN /1;
-        }
-        else
-        {
-            SP = TN / (TN + FP);
-        }
-        if((TP + FN) == 0)
-        {
-            SE = TP /1;
-        }
-        else
-        {
-            SE = TP / (TP + FN);
-        }
-        printf("\nSE: %f SP: %f",SE,SP);
-        SE = TP/ (TP + FN );
-        SP = TN/ (TN + FP );
-        printf("\nSE: %f SP: %f",SE,SP);
-        fitness = SP * SE;
+    if((TP + FN) == 0)
+        SE = TP /1;
+    else
+        SE = TP / (TP + FN);
 
-        printf("\nFitness TESTE: %f",fitness);
+    fitness = SP * SE;
+
+    printf("\n[FITNESS TESTE]: %f",fitness);
+    return fitness;
 }

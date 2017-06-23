@@ -2,6 +2,8 @@
 #define _POP_
 #include "populacao.h"
 #endif
+#include <stdio.h>
+#include <stdlib.h>
 
 
 /**
@@ -63,7 +65,7 @@ void quickSort(Individuo *geracao, int l, int r)
 }
 
 
- void exibeGenesPeso(Gene *gen)
+ void exibeResultado(Gene *gen,float fitnessTeste,float fitnessTreinamento)
 {
     int j;
     printf("\n-----------REGRA:----------\n");
@@ -106,12 +108,20 @@ void quickSort(Individuo *geracao, int l, int r)
         "Age\0"
     };
 
+    FILE *f;
+    f = fopen("resultado6.txt", "a");
+    fprintf(f,"\n--------------------\nCLASSE %d\n",CLASSE);
+
     for(j=0; j<TAM_INDIVIDUO; j++)
     {
         if(gen[j].peso > 0.7)
         {
-            printf("%s %s %d and\n",atributos[j],operadores[gen[j].operador],gen[j].valor);
+            fprintf(f,"%s %s %d and\n",atributos[j],operadores[gen[j].operador],gen[j].valor);
         }
     }
+    fprintf(f,"[FITNESS TREINAMENTO] %f\n",fitnessTreinamento);
+    fprintf(f,"[FITNESS TESTE] %f",fitnessTeste);
+
+    fclose(f);
 }
 

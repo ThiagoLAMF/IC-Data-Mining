@@ -1,0 +1,77 @@
+
+--------------------
+CLASSE 4
+koebner phenomenon  >= 1 and
+clubbing of the rete ridges  != 3 and
+band-like infiltrate <  2 and
+[FITNESS TREINAMENTO] 0.721290
+[FITNESS TESTE] 0.758974
+--------------------
+CLASSE 4
+PNL infiltrate  <  3 and
+acanthosis  <  2 and
+vacuolisation and damage of basal layer  != 3 and
+[FITNESS TREINAMENTO] 0.603871
+[FITNESS TESTE] 0.000000
+--------------------
+CLASSE 4
+elongation of the rete ridges  <  2 and
+spongiosis  = 2 and
+[FITNESS TREINAMENTO] 0.520430
+[FITNESS TESTE] 0.378205
+--------------------
+CLASSE 4
+melanin incontinence  <  1 and
+spongiosis  >= 2 and
+[FITNESS TREINAMENTO] 0.593548
+[FITNESS TESTE] 0.646154
+--------------------
+CLASSE 4
+melanin incontinence  <  1 and
+eosinophils in the infiltrate  <  2 and
+fibrosis of the papillary dermis  <  2 and
+elongation of the rete ridges  <  1 and
+[FITNESS TREINAMENTO] 0.722581
+[FITNESS TESTE] 0.820513
+--------------------
+CLASSE 4
+erythema  != 3 and
+oral mucosal involvement  != 2 and
+knee and elbow involvement  <  3 and
+elongation of the rete ridges  <  1 and
+spongiosis  >= 1 and
+band-like infiltrate <  1 and
+[FITNESS TREINAMENTO] 0.782796
+[FITNESS TESTE] 0.619231
+--------------------
+CLASSE 4
+definite borders  != 3 and
+follicular papules  != 3 and
+vacuolisation and damage of basal layer  != 1 and
+spongiosis  >= 1 and
+saw-tooth appearance of retes  != 3 and
+[FITNESS TREINAMENTO] 0.632258
+[FITNESS TESTE] 0.679487
+--------------------
+CLASSE 4
+koebner phenomenon  >= 1 and
+[FITNESS TREINAMENTO] 0.531183
+[FITNESS TESTE] 0.635897
+--------------------
+CLASSE 4
+polygonal papules <  3 and
+oral mucosal involvement  <  1 and
+knee and elbow involvement  <  1 and
+eosinophils in the infiltrate  <  1 and
+fibrosis of the papillary dermis  <  1 and
+elongation of the rete ridges  <  1 and
+focal hypergranulosis  != 1 and
+follicular horn plug  <  1 and
+[FITNESS TREINAMENTO] 0.832258
+[FITNESS TESTE] 0.830769
+--------------------
+CLASSE 4
+fibrosis of the papillary dermis  = 0 and
+elongation of the rete ridges  <  1 and
+[FITNESS TREINAMENTO] 0.516129
+[FITNESS TESTE] 0.538462

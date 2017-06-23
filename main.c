@@ -1,21 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-//#include "selecao.h"
-//#include "defines.h"
-//#include "crossover.h"
 #ifndef _POP_
-#define _POP_
-#include "populacao.h"
+    #define _POP_
+    #include "populacao.h"
 #endif
 #include "util.h"
-/*
-1 - git pull (Pegar os arquivos do servidor)
-2 - git status (Verifica Conflitos)
-3 - git add .
-4 - git commit -m "Mensagem"
-5 - git push
-*/
+
 /** DEC. FUNÇÕES **/
 /** MAIN **/
 int main()
@@ -31,22 +22,6 @@ int main()
     carregaArquivo(arquivo);
     carregaPopulacao(populacao);
 
-    /*for(i=0;i<34;i++)
-    {
-        populacao[0].gen[i].peso = 0;
-
-    }
-    populacao[0].gen[19].peso = 1.0;
-    populacao[0].gen[19].operador = 3;
-    populacao[0].gen[19].valor = 1;
-
-    populacao[0].gen[30].peso = 1.0;
-    populacao[0].gen[30].operador = 1;
-    populacao[0].gen[30].valor = 0;
-
-    populacao[0].gen[34].valor = 1;
-    //exibeGenesPeso(populacao[0].gen);
-    calculaAvaliacao(arquivo,populacao,1); //Calcula avaliação*/
     for(i = 0;i<N_GERACOES;i++)
     {
         calculaAvaliacao(arquivo,populacao,CLASSE); //Calcula avaliação
@@ -80,13 +55,11 @@ int main()
 
         SobeFilhos(populacao,TX_ELITISMO,TAM_POPULACAO-1,TAM_POPULACAO);
 
-
         //exibeDataMining(populacao,100,0);
         //calculaAvaliacao(arquivo,populacao,1); //Calcula avaliação
         //exibeFitness(populacao);
         //printf("\nFitness melhor: %f",populacao[0].fitness);
         //getchar();
-
     }
 
 
@@ -96,15 +69,13 @@ int main()
     //Debug
     //exibeDataMining(populacao,100,0);
     exibeFitness(populacao);
-    exibeGenesPeso(populacao[0].gen);
-    calculaFitnessTeste(populacao[0].gen,arquivo,CLASSE);
-    //printf("\nFITNESS: %f",populacao[0].fitness);
+    printf("\n[FITNESS TREINAMENTO]: %f",populacao[0].fitness);
+    float fitnessTeste = calculaFitnessTeste(populacao[0].gen,arquivo,CLASSE);
 
+    exibeResultado(populacao[0].gen,fitnessTeste,populacao[0].fitness);
     //Libera memoria:
     //liberaPopulacao(arquivo,TOTAL_INDIVIDUOS_ARQUIVO);
     //liberaPopulacao(populacao,TAM_POPULACAO_TOTAL);
-
-    getchar();
     return 0;
 }
 

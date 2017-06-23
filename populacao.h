@@ -1,4 +1,8 @@
-#define TOTAL_INDIVIDUOS_ARQUIVO 170
+#define TOTAL_INDIVIDUOS_ARQUIVO 258
+#define TOTAL_TREINAMENTO 170
+#define TOTAL_TESTE 88
+
+#define CLASSE 5
 
 #define TAM_POPULACAO 50
 #define TAM_POPULACAO_TOTAL 100 // TAM_POPULACAO + Quantidade de filhos
@@ -43,3 +47,4 @@ int roleta(Individuo *aval);
 void roletaSemRepeticao(Individuo *populacao,int *pai1,int *pai2);
 int calculafitnessAcumulado(Individuo *aval);
 void exibeFitness(Individuo *aval);
+void calculaFitnessTeste(Gene *regra,Individuo *base, int Classe);

@@ -6,79 +6,106 @@
 #include "populacao.h"
 #endif
 
-int calculaAvaliacao(Individuo *ind, Individuo *aval, int Classe)
+int calculaAvaliacao(Individuo *arquivo, Individuo *populacao, int Classe)
 {
-    int i,contadorC1 = 0,j,k,posMaiorFitness = -1;
-    float FP=0,TP=0,FN=0,TN=0;
-    float SE,SP;
-    float fitness;
-    float maiorFitness = 0;
 
-    for(i=0; i<TAM_POPULACAO; i++) //Percorre aleatorios
+    float FP=0,TP=0,FN=0,TN=0;
+    float SE=0,SP=0;
+    float fitness;
+    int i,j,k;
+    int flag;
+
+    for(i=0;i<TAM_POPULACAO;i++)
     {
+        flag = 1;
         FP=0,TP=0,FN=0,TN=0;
-        for(k = 0; k<TOTAL_INDIVIDUOS_ARQUIVO; k++) //percorre carregados do arquivo
+
+        for(j=0;j<TOTAL_TREINAMENTO;j++)
         {
-            int flagDiferente = 0;
-            for(j = 0; j<TAM_INDIVIDUO; j++) //PErcorre os genes
+            flag = 1;
+            for(k=0;k<TAM_INDIVIDUO && flag;k++)
             {
-                if(aval[i].gen[j].peso > 0.7  )
+                if(populacao[i].gen[k].peso > 0.7)
                 {
-                    int operador = aval[i].gen[j].operador;
-                    switch(operador)
+                    //printf("\nOPERADOR %d\n",populacao[i].gen[k].operador);
+                    switch(populacao[i].gen[k].operador)
                     {
-                        case DIFERENTE:
-                            if(aval[i].gen[j].valor == ind[k].gen[j].valor)
-                                flagDiferente = 1;
+                        case 0: //Diferente
+                            if(arquivo[j].gen[k].valor != populacao[i].gen[k].valor)
+                                flag = 1;
+                            else
+                                flag = 0;
                             break;
-                        case IGUAL:
-                            if(aval[i].gen[j].valor != ind[k].gen[j].valor)
-                                flagDiferente = 1;
+
+                        case 1: //Igual
+                            if(arquivo[j].gen[k].valor == populacao[i].gen[k].valor)
+                                flag = 1;
+                            else
+                                flag = 0;
                             break;
-                        case MENOR:
-                            if(aval[i].gen[j].valor >= ind[k].gen[j].valor)
-                                flagDiferente = 1;
+                        case 2: // Menor
+                            if(arquivo[j].gen[k].valor < populacao[i].gen[k].valor)
+                                flag = 1;
+                            else
+                                flag = 0;
                             break;
-                        case MAIORIGUAL:
-                            if(aval[i].gen[j].valor < ind[k].gen[j].valor)
-                                flagDiferente = 1;
+                        case 3: //Maior igual
+                            if(arquivo[j].gen[k].valor >= populacao[i].gen[k].valor)
+                                flag = 1;
+                            else
+                                flag = 0;
                             break;
+                        default: break;
                     }
-                    if(flagDiferente) break;
                 }
             }
-            if(Classe == ind[k].gen[34].valor && !flagDiferente) //Regra diz que paciente tem e ele realmente tem
+            if(flag)
             {
-                TP++;
+                if(arquivo[j].gen[34].valor == Classe)
+                    TP++;
+                else
+                    FP++;
+
             }
-            else if(Classe == ind[k].gen[34].valor && flagDiferente)//Regra diz que paciente tem e paciente nao tem
+            else
             {
-                FP++;
-            }
-            else if(Classe != ind[k].gen[34].valor && !flagDiferente) //Regradiz que paciente nao tem e ele tem
-            {
-                FN++;
-            }
-            else if(Classe != ind[k].gen[34].valor && flagDiferente) //Regra diz que paciente nao tem e ele não tem
-            {
-                TN++;
+                if(arquivo[j].gen[34].valor == Classe)
+                    FN++;
+                else
+                    TN++;
             }
         }
-
-        SE = (TP+1)/(TP + FN +1);
-        SP = (TN+1)/(TN + FP +1);
-        fitness = SE * SP;
-
-        /*if (fitness > maiorFitness)
+        //printf("TN + FP %f  %f", TP,FN);
+        if((TN + FP) == 0)
         {
-            maiorFitness = fitness;
-            posMaiorFitness = i;
-        }*/
-        aval[i].fitness = fitness;
-    }
-    return posMaiorFitness;
-}
+            SP = TN /1;
+        }
+        else
+        {
+            SP = TN / (TN + FP);
+        }
+        if((TP + FN) == 0)
+        {
+            SE = TP /1;
+        }
+        else
+        {
+            SE = TP / (TP + FN);
+        }
+        //printf("\nSE: %f SP: %f",SE,SP);
+        SE = TP/ (TP + FN );
+        SP = TN/ (TN + FP );
+        //printf("\nSE: %f SP: %f",SE,SP);
+        fitness = SP * SE;
 
+        populacao[i].fitness = fitness;
+        //printf("\nFitness: %f",fitness);
+        //getchar();
+    }
+
+    return 1;
+
+}
 void exibeGenes(Gene *gen)
 {
     int j;
@@ -176,20 +203,37 @@ void carregaPopulacao(Individuo *aval)
         while( index != TAM_INDIVIDUO )
         {
             //if (rand()%(2) < 1) //flag vai definir si o peso é negativo ou não
-            aval[indexIndividuo].gen[index].peso = myrand;
-            //else
-            //    aval[indexIndividuo].gen[index].peso = -myrand;
 
-            aval[indexIndividuo].gen[index].operador = rand()%(4);
+                if (index == 10) //Hist. Fam. 0 ou 1
+                {
+                    aval[indexIndividuo].gen[index].valor = rand()%(2);
+                    aval[indexIndividuo].gen[index].peso = myrand;
+                    aval[indexIndividuo].gen[index].operador = rand()%(4);
+                }
 
-            if (index == 10) //Hist. Fam.
-                aval[indexIndividuo].gen[index].valor = rand()%(2);
-            else if (index == 33) //Idade
-                aval[indexIndividuo].gen[index].valor = rand()%(100);
-            else
-                aval[indexIndividuo].gen[index].valor = rand()%(4);
+                else if (index == 33) //Idade 0 a 90
+                {
+                    aval[indexIndividuo].gen[index].valor = rand()%(79);
+                    aval[indexIndividuo].gen[index].peso = myrand;
+                    aval[indexIndividuo].gen[index].operador = rand()%(4);
+                }
+                else if (index == 34) //Classe
+                {
+                    aval[indexIndividuo].gen[index].valor = (rand()%(6)) +1; // tira o 6 das opcoes.
+                    aval[indexIndividuo].gen[index].peso = 1;
+                    aval[indexIndividuo].gen[index].operador = rand()%(4);
+                }
+
+                else
+                {
+                    aval[indexIndividuo].gen[index].valor = (rand()%(4));
+                    aval[indexIndividuo].gen[index].peso = myrand;
+                    aval[indexIndividuo].gen[index].operador = rand()%(4);
+
+                }
             index++;
         }
+
         aval[indexIndividuo].fitness = 0;
         aval[indexIndividuo].fitnessAcumulado = 0;
         indexIndividuo++;
@@ -205,7 +249,7 @@ int mutacao(Gene *gen)
     int operadorAux;
     int valorAux;
 
-    for(i=0; i<=total_genes; i++)
+    for(i=0; i<=total_genes/2; i++)
     {
         //TROCA PESO:
         do
@@ -433,4 +477,93 @@ void exibeFitness(Individuo *aval)
     {
         printf("\n[%d]\t F: %.5f\tFA: %.5f",i,aval[i].fitness,aval[i].fitnessAcumulado);
     }
+}
+
+void calculaFitnessTeste(Gene *regra,Individuo *base, int Classe)
+{
+    float FP=0,TP=0,FN=0,TN=0;
+    float SE=0,SP=0;
+    float fitness;
+    int i,j;
+    int flagIgual = 1;
+    for(i = TOTAL_TREINAMENTO; i< TOTAL_INDIVIDUOS_ARQUIVO; i++)
+    {
+        flagIgual = 1;
+        for(j = 0; j< TAM_INDIVIDUO && flagIgual;j++)
+        {
+            if(regra[j].peso > 0.7)
+            {
+                switch(regra[j].operador)
+                {
+                    case 0: //Diferente
+                        if(base[i].gen[j].valor != regra[j].valor)
+                            flagIgual = 1;
+                        else
+                            flagIgual = 0;
+                        break;
+
+                    case 1: //Igual
+                        if(base[i].gen[j].valor == regra[j].valor)
+                            flagIgual = 1;
+                        else
+                            flagIgual = 0;
+                        break;
+                    case 2: // Menor
+                        if(base[i].gen[j].valor < regra[j].valor)
+                            flagIgual = 1;
+                        else
+                            flagIgual = 0;
+                        break;
+                    case 3: //Maior igual
+                        if(base[i].gen[j].valor >= regra[j].valor)
+                            flagIgual = 1;
+                        else
+                            flagIgual = 0;
+                        break;
+                    default: break;
+                }
+            }
+        }
+
+        if(flagIgual)
+        {
+            if(base[i].gen[34].valor == Classe)
+                TP++;
+            else
+                FP++;
+
+        }
+        else
+        {
+            if(base[i].gen[34].valor == Classe)
+                FN++;
+            else
+                TN++;
+        }
+    }
+
+    //printf("TN + FP %f  %f", TP,FN);
+        if((TN + FP) == 0)
+        {
+            SP = TN /1;
+        }
+        else
+        {
+            SP = TN / (TN + FP);
+        }
+        if((TP + FN) == 0)
+        {
+            SE = TP /1;
+        }
+        else
+        {
+            SE = TP / (TP + FN);
+        }
+        printf("\nSE: %f SP: %f",SE,SP);
+        SE = TP/ (TP + FN );
+        SP = TN/ (TN + FP );
+        printf("\nSE: %f SP: %f",SE,SP);
+        fitness = SP * SE;
+
+        printf("\nFitness TESTE: %f",fitness);
 }

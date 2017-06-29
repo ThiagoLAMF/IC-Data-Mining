@@ -378,7 +378,8 @@ int roleta(Individuo *aval)
 
     while (A == B && A == C)
     {
-
+        if (somatotal == 0)
+            break;
         do{
             A =((float)(rand())/(float)(RAND_MAX))*1;
         }while (A > somatotal);
@@ -394,11 +395,14 @@ int roleta(Individuo *aval)
         A =((float)(rand())/(float)(RAND_MAX))*somatotal;
         B =((float)(rand())/(float)(RAND_MAX))*somatotal;
         C =((float)(rand())/(float)(RAND_MAX))*somatotal;*/
-        if(A == 0 && B == 0 && C == 0)
-        {
-            printf("Erro no rand()");
-            exit(1);
-        }
+        //if(A == 0 && B == 0 && C == 0)
+        //{
+
+            //printf("--------------------------------Erro no rand() %f",somatotal);
+            //exibeFitness(aval);
+            //getchar();
+            //exit(1);
+        //}
     }
 
     while(i<TAM_POPULACAO-1 && aval[i].fitnessAcumulado <= A)
@@ -438,11 +442,11 @@ int calculafitnessAcumulado(Individuo *aval)
     float fitnessAnterior = 0;
     for(i=0;i<50;i++)
     {
-        if(aval[i].fitnessAcumulado != -1) //Usado para diminuir a seleção repetida na roleta
-        {
+        //if(aval[i].fitnessAcumulado != -1) //Usado para diminuir a seleção repetida na roleta
+        //{
             aval[i].fitnessAcumulado = aval[i].fitness + fitnessAnterior;
             fitnessAnterior = aval[i].fitnessAcumulado;
-        }
+        //}
     }
 }
 

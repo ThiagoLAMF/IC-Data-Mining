@@ -1,21 +1,79 @@
 
 --------------------
 CLASSE 1
-fibrosis of the papillary dermis  <  1 and
 clubbing of the rete ridges  >= 1 and
-focal hypergranulosis  <  2 and
-follicular horn plug  <  1 and
 
-[TEMPO]: 37 ms
-[FITNESS TREINAMENTO] 0.968750
+[TEMPO]: 73 ms
+[FITNESS TREINAMENTO] 0.953125
 [FITNESS TESTE] 0.900000
 --------------------
 CLASSE 2
-oral mucosal involvement  <  1 and
+follicular papules  != 2 and
+oral mucosal involvement  <  2 and
+knee and elbow involvement  != 2 and
+scalp involvement  != 2 and
 fibrosis of the papillary dermis  <  1 and
-thinning of the suprapapillary epidermis  <  1 and
-spongiosis  >= 1 and
+hyperkeratosis  <  2 and
+munro microabcess  != 1 and
+focal hypergranulosis  <  1 and
 
-[TEMPO]: 42 ms
-[FITNESS TREINAMENTO] 0.761538
-[FITNESS TESTE] 0.800000
+[TEMPO]: 49 ms
+[FITNESS TREINAMENTO] 0.757500
+[FITNESS TESTE] 0.699487
+--------------------
+CLASSE 3
+itching  >= 2 and
+koebner phenomenon  != 1 and
+polygonal papules != 0 and
+family history, (0 or 1)  <  1 and
+eosinophils in the infiltrate  <  2 and
+hyperkeratosis  <  3 and
+munro microabcess  >= 0 and
+disappearance of the granular layer  = 0 and
+saw-tooth appearance of retes  >= 1 and
+follicular horn plug  = 1 and
+perifollicular parakeratosis  = 0 and
+
+[TEMPO]: 41 ms
+[FITNESS TREINAMENTO] 0.029412
+[FITNESS TESTE] 0.000000
+--------------------
+CLASSE 4
+polygonal papules <  1 and
+exocytosis  != 0 and
+elongation of the rete ridges  != 2 and
+spongiform pustule  != 1 and
+vacuolisation and damage of basal layer  <  1 and
+
+[TEMPO]: 43 ms
+[FITNESS TREINAMENTO] 0.684211
+[FITNESS TESTE] 0.756410
+--------------------
+CLASSE 5
+itching  != 3 and
+koebner phenomenon  = 3 and
+polygonal papules <  1 and
+family history, (0 or 1)  != 1 and
+melanin incontinence  != 0 and
+acanthosis  = 1 and
+parakeratosis != 2 and
+clubbing of the rete ridges  <  2 and
+thinning of the suprapapillary epidermis  = 2 and
+spongiform pustule  >= 3 and
+inflammatory monoluclear inflitrate  = 2 and
+band-like infiltrate = 1 and
+Age <  5 and
+
+[TEMPO]: 41 ms
+[FITNESS TREINAMENTO] 0.000000
+[FITNESS TESTE] 0.000000
+--------------------
+CLASSE 6
+thinning of the suprapapillary epidermis  != 2 and
+munro microabcess  != 1 and
+follicular horn plug  != 3 and
+perifollicular parakeratosis  != 0 and
+
+[TEMPO]: 61 ms
+[FITNESS TREINAMENTO] 0.883368
+[FITNESS TESTE] 0.666667

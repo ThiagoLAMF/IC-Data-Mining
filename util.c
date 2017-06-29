@@ -65,7 +65,7 @@ void quickSort(Individuo *geracao, int l, int r)
 }
 
 
- void exibeResultado(Gene *gen,float fitnessTeste,float fitnessTreinamento)
+ void exibeResultado(Gene *gen,float fitnessTeste,float fitnessTreinamento,int clss,unsigned long int tempo)
 {
     int j;
     printf("\n-----------REGRA:----------\n");
@@ -109,8 +109,9 @@ void quickSort(Individuo *geracao, int l, int r)
     };
 
     FILE *f;
-    f = fopen("resultado6.txt", "a");
-    fprintf(f,"\n--------------------\nCLASSE %d\n",CLASSE);
+
+    f = fopen("resultado.txt", "a");
+    fprintf(f,"\n--------------------\nCLASSE %d\n",clss);
 
     for(j=0; j<TAM_INDIVIDUO; j++)
     {
@@ -119,6 +120,7 @@ void quickSort(Individuo *geracao, int l, int r)
             fprintf(f,"%s %s %d and\n",atributos[j],operadores[gen[j].operador],gen[j].valor);
         }
     }
+    fprintf(f,"\n[TEMPO]: %d ms\n",tempo);
     fprintf(f,"[FITNESS TREINAMENTO] %f\n",fitnessTreinamento);
     fprintf(f,"[FITNESS TESTE] %f",fitnessTeste);
 

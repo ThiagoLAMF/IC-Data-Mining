@@ -2,13 +2,13 @@
 #define TOTAL_TREINAMENTO 170
 #define TOTAL_TESTE 88
 
-#define CLASSE 6
+#define CLASSE 3
 
 #define TAM_POPULACAO 50
 #define TAM_POPULACAO_TOTAL 100 // TAM_POPULACAO + Quantidade de filhos
 #define TAM_INDIVIDUO 34
 
-#define P_MUTACAO_POR_CAMPO 30 //Porcentagem mutacao por campo
+#define P_MUTACAO_POR_CAMPO 50 //Porcentagem mutacao por campo
 #define N_GERACOES 50
 #define N_FILHOS 50
 
